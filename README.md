@@ -1,6 +1,6 @@
 # Enhanced Linux Assistant
 
-A powerful terminal-based assistant that combines Linux command execution with AI assistance to help with system administration, troubleshooting, and automation tasks.
+A powerful terminal-based assistant that combines Linux command execution with AI agent to help with system administration, troubleshooting, and automation tasks.
 
 ## Features
 
