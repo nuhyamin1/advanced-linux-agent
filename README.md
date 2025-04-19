@@ -1,97 +1,129 @@
-# Advanced Linux Agent
+# Enhanced Linux Assistant
 
-This script provides an enhanced command-line assistant for Linux environments. It integrates with AI models (DeepSeek and Gemini) to help users execute commands, automate tasks, understand system operations, and more, directly from the terminal.
+A powerful terminal-based assistant that combines Linux command execution with AI assistance to help with system administration, troubleshooting, and automation tasks.
 
 ## Features
 
-*   **AI-Powered Task Execution:** Break down complex natural language tasks into executable Linux command sequences (`task` command).
-*   **Script Generation:** Automatically generate bash scripts based on task descriptions (`script` command).
-*   **Command Execution:** Run standard Linux commands directly.
-*   **Safety Checks:** Warns before executing potentially dangerous commands (e.g., `rm -rf`, `dd`).
-*   **Command Explanation:** Get explanations for Linux commands using `tldr` or `man` (`explain` command).
-*   **Task Scheduling:** Generate and add cron jobs for scheduled tasks (`schedule` command).
-*   **Context-Aware AI:** Provides system context (OS, running services, disk space, etc.) to the AI for more relevant responses.
-*   **Command History Analysis:** Ask questions about recent command history and outputs (`ask` command).
-*   **Error Suggestions:** Suggests potential fixes if a command results in an error.
-*   **Interactive Chat Mode:** Engage in a general conversation with the selected AI model (`chat` command).
-*   **Multiple AI Model Support:** Switch between supported AI models (DeepSeek, Gemini) on the fly (`set model` command).
-*   **Command Logging:** View the history of executed commands and their outputs (`log` command).
-*   **Color-Coded Output:** Uses terminal colors for improved readability of commands, outputs, and AI analysis.
+- Execute Linux commands with real-time AI suggestions for errors
+- Auto-generate multi-step task sequences
+- Create executable bash scripts from natural language descriptions
+- Schedule tasks with automatic cron job generation
+- Get command explanations using man pages or tldr
+- Ask questions about your command history and system state
+- Chat mode for conversational assistance
+- Support for multiple AI models (DeepSeek and Gemini)
+- Safety checks for potentially dangerous commands
 
 ## Requirements
 
-*   Python 3.x
-*   `openai` library (`pip install openai`)
-*   `google-generativeai` library (`pip install google-generativeai`)
-*   API Key for DeepSeek and/or Google AI (Gemini).
-*   Standard Linux utilities (`cat`, `grep`, `cut`, `systemctl`, `df`, `ip`, `free`, `crontab`, `man`).
-*   (Optional but Recommended) `tldr` (`sudo apt install tldr` or equivalent) for concise command explanations.
+- Python 3.8+
+- API keys for supported AI models (DeepSeek and/or Gemini)
 
 ## Installation
 
-1.  **Clone the repository or download the script:**
-    ```bash
-    # If using git
-    # git clone <repository_url>
-    # cd <repository_directory>
-    # Otherwise, just ensure advanced_linux_agent.py is in your directory
-    ```
-2.  **Install Python dependencies:**
-    ```bash
-    pip install openai google-generativeai
-    ```
-3.  **(Optional) Install tldr:**
-    ```bash
-    # Debian/Ubuntu
-    sudo apt update && sudo apt install tldr
+1. Clone the repository:
+```
+git clone https://github.com/nuhyamin1/advanced-linux-agent.git
+cd linux-agent
+```
 
-    # Fedora
-    sudo dnf install tldr
+2. Install the required dependencies:
+```
+pip install openai google-generativeai
+```
 
-    # Arch Linux
-    sudo pacman -S tldr
-    ```
-
-## Configuration
-
-The agent requires API keys for the AI models you intend to use.
-
-*   **Recommended:** Set the keys as environment variables:
-    ```bash
-    export DEEPSEEK_API_KEY='your_deepseek_api_key'
-    export GEMINI_API_KEY='your_google_ai_api_key'
-    ```
-    You can add these lines to your shell profile (e.g., `~/.bashrc`, `~/.zshrc`) for persistence.
-
-*   **Alternative:** If the environment variables are not set, the script will prompt you to enter the keys manually when you first select a model.
+3. Set up environment variables for your API keys (optional):
+```
+export DEEPSEEK_API_KEY="your-deepseek-api-key"
+export GEMINI_API_KEY="your-gemini-api-key"
+```
 
 ## Usage
 
-1.  **Run the script:**
-    ```bash
-    python advanced_linux_agent.py
-    ```
-2.  **Choose an initial AI model:** You will be prompted to select either `deepseek` or `gemini`.
-3.  **Interact with the agent:**
-    *   Enter standard Linux commands directly (e.g., `ls -l`, `pwd`).
-    *   Use the special commands provided by the agent:
-        *   `ask [question]`: Ask a question about the recent command history.
-        *   `analyze`: (Implicit) Explains the output of the last command if it contained an error or suggests fixes.
-        *   `task [description]`: Execute a multi-step task described in natural language.
-        *   `script [description]`: Generate a bash script for the described task.
-        *   `explain [command]`: Get an explanation for a specific Linux command.
-        *   `schedule [description]`: Create a cron job for the described task.
-        *   `chat`: Enter interactive chat mode with the AI. Type `exit` to return.
-        *   `set model [deepseek|gemini]`: Switch the active AI model.
-        *   `log`: Display the command history.
-        *   `help`: Show the list of available special commands.
-        *   `exit`: Quit the agent.
+Run the assistant:
+```
+python advanced_linux_agent.py
+```
 
-## Supported AI Models
+When started, you'll be prompted to choose which AI model to use initially. You can always switch models during your session.
 
-*   **DeepSeek:** Accessed via the `openai` library pointing to the DeepSeek API endpoint.
-*   **Gemini:** Accessed via the `google-generativeai` library.
+### Available Commands
+
+- Regular Linux commands are executed normally
+- Special commands:
+  - `ask [question]`: Ask about terminal history
+  - `analyze`: Explain last command output
+  - `task [description]`: Run multi-step task
+  - `script [description]`: Generate a bash script
+  - `explain [command]`: Explain a command
+  - `schedule [description]`: Schedule a task with cron
+  - `chat`: Enter chat mode
+  - `set model [model_name]`: Switch AI models
+  - `log`: View command history
+  - `help`: Show available commands
+  - `exit`: Quit the program
+
+### Examples
+
+Generate a script to monitor disk usage:
+```
+➜ /home/user $ script create a daily disk usage report and email it to admin@example.com
+```
+
+Run a multi-step task:
+```
+➜ /home/user $ task find all log files over 100MB and compress them
+```
+
+Get help with an error:
+```
+➜ /home/user $ netstat -tulpn
+Error: netstat: command not found
+
+Getting suggestions...
+Suggested command: ss -tulpn
+Run this? [y/N] y
+```
 
 ## Safety Features
 
-The agent includes a basic check for potentially destructive commands (like `rm -rf`, `dd`, `mkfs`). If such a command pattern is detected, it will ask for explicit confirmation (`y/N`) before proceeding. **Always review commands carefully before confirming execution.**
+The assistant has built-in safety measures:
+- Detection of potentially dangerous commands
+- Confirmation prompts for risky operations
+- Command timeout limits
+- Proper shell escaping to prevent injection
+
+## Customization
+
+### Adding New AI Models
+
+To add support for a new AI model:
+1. Add a new entry to the `AIModel` enum
+2. Update the `setup_model` method to handle the new model's API
+3. Modify `get_ai_response` and `stream_ai_response` methods to work with the new model
+
+### Extending Command Set
+
+To add new special commands:
+1. Add a new handler method in the `SimpleLinuxAssistant` class
+2. Update the `run` method to detect and route to your new handler
+3. Add your command to the help text
+
+## Troubleshooting
+
+- **API Key Issues**: If you encounter authentication errors, verify your API keys
+- **Command Execution Failures**: Check that you have the necessary permissions
+- **Model Switching Problems**: Ensure both models are properly configured
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Uses DeepSeek and Google Gemini APIs for AI assistance
+- Inspired by the need for smarter terminal tooling
