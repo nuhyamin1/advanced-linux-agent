@@ -24,7 +24,7 @@ A powerful terminal-based assistant that combines Linux command execution with A
 1. Clone the repository:
 ```
 git clone https://github.com/nuhyamin1/advanced-linux-agent.git
-cd linux-agent
+cd advanced-linux-agent
 ```
 
 2. Install the required dependencies:
